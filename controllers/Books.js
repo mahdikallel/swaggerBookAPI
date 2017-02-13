@@ -24,6 +24,7 @@ module.exports = {saveBook, getBookById, getBooksList, updateBook, patchBook,del
  }*/
 
 function getBooksList(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     BooksService.getBooksList(req.swagger.params, res, next);
 }
 
