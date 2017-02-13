@@ -1,0 +1,125 @@
+---
+swagger: "2.0"
+info:
+  description: "API for Book Store"
+  version: "1.0.0"
+  title: "Book Store"
+host: "localhost:3000"
+basePath: "/api/v1"
+schemes:
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /books:
+    get:
+      tags:
+      - "Books"
+      operationId: "getBooksList"
+      parameters: []
+      responses:
+        200:
+          description: "success"
+          schema:
+            type: "array"
+            title: "books"
+            items:
+              $ref: "#/definitions/Book"
+      x-swagger-router-controller: "Books"
+    post:
+      operationId: saveBook
+      description: add a new book to the list
+      # movie info to be stored
+      parameters:
+        - name: title
+          description: Books properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Book"
+      x-swagger-router-controller: "Books"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /books/{id}:
+    get:
+      tags:
+      - "Books"
+      operationId: "getBookById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "book id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/Book"
+      x-swagger-router-controller: "Books"
+    put:
+      operationId: updateBook
+      description: update a book
+      # define the parameters
+      parameters:
+        - name: id
+          description: book id
+          type: string
+          in: path
+          required: true
+        - name: title
+          description: Book properties
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Book"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/Book"
+      x-swagger-router-controller: "Books"
+definitions:
+  GeneralResponse:
+    type: object
+    properties:
+      success:
+        type: number
+        description: returns 1 if successful
+      description:
+        type: string
+        description: a short comment
+    required:
+      - success
+      - description
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  Book:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        example: 1
+      title:
+        type: "string"
+        example: "Hello, Angular2"
+      author:
+        type: "string"
+        example: "john doe"
+    required:
+      - title
+      - author
+
